@@ -1,15 +1,13 @@
-with open('logfile.txt', 'r', encoding='utf-8') as log:
+with open('logfile.txt', 'r', encoding='utf-8') as log, open('output.txt', 'w', encoding='utf-8') as out:
      list_user = [i.strip().split() for i in log.readlines()]
-     print(list_user)
-
-
-     #time_user1 = list(map(lambda x: (f'{x[0].split()}  {x[1].split()} {x[2].split()} {x[3].split()}'), list_user))
-     #print(time_user1)
-     time_user = list(map(lambda x: x[2].split() + x[3].split(), list_user))
-     print(time_user)
+     time_user = list(map(lambda x: x[2].strip(',').split() + x[3].split(), list_user))
+     result = []
      for i in time_user:
-          time_list = list(map(lambda x: x.split(':'), i))
-          print(time_list)
-          for j in time_list:
-               over_hours = list(map(lambda x, y: int(x.strip(',')) * 60 + int(y.strip(',')), j))
-               print(over_hours)
+          time_list1 = list(map(int, list(map(lambda x: x.split(':'), i))[0]))
+          time_list2 = list(map(int, list(map(lambda x: x.split(':'), i))[1]))
+          over_hour = (time_list1[0]*60 + time_list1[1]) - (time_list2[0]*60 + time_list2[1])
+          result.append(over_hour)
+     for i in range(len(result)):
+          if abs(result[i]) >= 60:
+               print(list_user[i][0] + ' ' + list_user[i][1].strip(','), file=out, sep='')
+

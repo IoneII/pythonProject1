@@ -1,15 +1,9 @@
-journal = []
-n = int(input())
-for _ in range(n):
-    result = []
-    for _ in range(int(input())):
-        if int(input().split()[1]) > 4:
-            Flag = True
-        else:
-            Flag = False
+from functools import reduce
+import pysnooper
 
-        result.append(Flag)
-    journal.append(any(result))
+@pysnooper.snoop()
 
-print(('NO', 'YES')[all(journal)])
+def hide_card(card_number):
+    return '*' * 12 + str(reduce(lambda x, y: x + y, [i for i in card_number.split()]))[-4:]
 
+print(hide_card('1034 3948 1944 6327'))
